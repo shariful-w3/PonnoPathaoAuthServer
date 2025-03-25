@@ -1,0 +1,109 @@
+-------------------------------------------------------------------------------
+------------------------------- STEP 1 ----------------------------------------
+
+Step 1: Generate PKSE code
+https://developer.pingidentity.com/en/tools/pkce-code-generator.html
+Code Challange:
+3ScPqXGEcd4c4X64B6E1w-oCJv_7sNHmc_SPpKKvzTg
+Code Verifier:
+GfoX2NvNnV-BgobNehQRHnAY1coq0iK_o0qAvsMGgR-iKDopw3mcHmdNwF43Tda_1T-8r54fB00TetNuwoLzTRxW8cGLDfaKtU4iynMvRZNbw_0-pok0f7iiIZ1ohqb8
+
+------------------------------- STEP 2 ----------------------------------------
+
+Step 2:Call authorize API It will store the used params in url and return a login page:
+
+http://localhost:8080/oauth2/authorize?
+  response_type=code
+  &client_id=public-client
+  &redirect_uri=http://127.0.0.1:8081/login/oauth2/code/public-client
+  &code_challenge=wHESNSZzEugW_eerpiU3u3sCGu2v5W2VUUW2QmOi2G0
+  &code_challenge_method=S256
+  &scope=openid
+  &state=ZwS_NPivqJDXDYJU
+
+code:0ls1ZKW1JNZfcMsfvPP4kDRgdIXlzwlEQdhnqtVF_wjj1xpwWkU-i9oGQq_VJWTx0U7bRWd6I1tLCrJgz9hI85a12hCICf2MHdimGyy8vDJbna4_OPgNIYU4hMDBF_wd
+grant_type:authorization_code
+client_id:public-client
+redirect_uri:http://127.0.0.1:8081/login/aouth2/code/public-client
+code_verifier:GfoX2NvNnV-BgobNehQRHnAY1coq0iK_o0qAvsMGgR-iKDopw3mcHmdNwF43Tda_1T-8r54fB00TetNuwoLzTRxW8cGLDfaKtU4iynMvRZNbw_0-pok0f7iiIZ1ohqb8
+
+http://localhost:8080/oauth2/authorize?response_type=code&client_id=public-client&redirect_uri=http://127.0.0.1:8081/login/aouth2/code/public-client&code_challenge=3ScPqXGEcd4c4X64B6E1w-oCJv_7sNHmc_SPpKKvzTg&code_challenge_method=S256&scope=openid
+
+{
+    "access_token": "eyJraWQiOiI1NGIyNjM5NC1jNWJkLTQ0MWUtOTQ4OC00ZmMxMTBmM2M0NzEiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiYXVkIjoicHVibGljLWNsaWVudCIsIm5iZiI6MTc0Mjg3ODkzMCwic2NvcGUiOlsib3BlbmlkIl0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImV4cCI6MTc0Mjg3OTIzMCwiaWF0IjoxNzQyODc4OTMwLCJqdGkiOiJkNWE0ZGEwNy04OWVjLTQ1ZGMtYWU0OC1jZjRkY2QyZmQwYjMifQ.IDiaE8Jg9wXZnvzY7RB7NI-2b7Kl01Xz97sPJStyx4FGOzCu8XAWQmP-Qqnhu6D1Bg9tlr20qTnqjlViY5J0StLkawyrzbAGWlmyWkiEzEPaOeD0jj6lJtiUHz2PeXtIDSId4dw_mEVIiqbLPUadgG8DSIeknQg6ATHkLGifYedC_URqfr2Aw0-B_2NzB5yR0ydK442Tmh_lMAwcB-m37KMlB9RBQ6-vv9AvQpb_DGuHVjjduJLQXfu3wicH2engEpwsn0M_aqv7z2NIETWyVbdd2GFDX-tcRaMxP_vt1SaXkX15PzZH8puc_v-6OuUleKzhYTt-ZWgD14LO_-u9Qg",
+    "refresh_token": "12rSeIAcfTX4HI7HS_KWAwpb3VA4eBVoVuWEe8YKG3HwJO7fJ-LDFnmpMnNJFqrXt3yx-OMooa3ndiZZm7kCVBLHGWY0qHBGOYoi4X0_z6D6B7XpukqmWMhhORouRIk3",
+    "scope": "openid",
+    "id_token": "eyJraWQiOiI1NGIyNjM5NC1jNWJkLTQ0MWUtOTQ4OC00ZmMxMTBmM2M0NzEiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiYXVkIjoicHVibGljLWNsaWVudCIsImF6cCI6InB1YmxpYy1jbGllbnQiLCJhdXRoX3RpbWUiOjE3NDI4Nzg3NjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImV4cCI6MTc0Mjg4MDczMCwiaWF0IjoxNzQyODc4OTMwLCJqdGkiOiJkYWQyODIzYi02ZmI2LTRjZDgtYWZiZS0wMTI5ZDU5MDNlNmYiLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic2lkIjoiNkZzZ21TUTdPRGtZYkhBYjRrcVk2Y01oNVc1cXEzX1UyaE0tYjVfaHJGcyJ9.XiLodzpq_n-bMc5Mr6Z0wMxzGL8RIq5_3mpRl0wsD-K2y_oxdJ7YY4L-DkuTUGMrIL3Bwi4gBD-8hibiWVHuhGhdCJjuVOuU96bKuMlUdbg2e6gExPoQGdU8w1IW-FVWySq_7T2tec8p-M5QD1SvZclhA_EZ9tIIwtfpjk_uvSIdVygBkSS_0jBnX4uqpKLOZmEQoWiMEPibFlYykMr1m1qJdUI7R80UfVDOy_kLyou7uPAOOKNVjBcHyltIHeZ6_6NzTjY0ZSBy423ung3ogg1rpaV03UXSkzVO2Ah3J4-1SpUxEQWc4Hw96s9N3XlEk0tYOvG38mmA-WMG0fDSrw",
+    "token_type": "Bearer",
+    "expires_in": 299
+}
+
+------------------------------- STEP 3 ----------------------------------------
+
+Step 3: After giving credential and submit if it founds ok the browser will give a redirect url:
+
+http://127.0.0.1:8081/login/oauth2/code/public-client?
+code=fVBGeb_IYsgdLX4fYpF7WgrvPxX9fgVHen0fdZTpXUYgt9_pVvHr0zkdYbQo9Ty6dqPFNO9Zze2aiupMPY2d3hBV0fGR6hvaexoixd2YFzjdSH_hrxQiZKvYy8OBgRAJ
+&state=ZwS_NPivqJDXDYJU
+
+This redirect url contains
+code: fVBGeb_IYsgdLX4fYpF7WgrvPxX9fgVHen0fdZTpXUYgt9_pVvHr0zkdYbQo9Ty6dqPFNO9Zze2aiupMPY2d3hBV0fGR6hvaexoixd2YFzjdSH_hrxQiZKvYy8OBgRAJ
+
+------------------------------- STEP 4 ----------------------------------------
+
+Step 4: Now we can get token using this code and code verifier:
+For help :
+http://localhost:8080/.well-known/openid-configuration
+this url will expose the defaulr end points given by our auth server
+
+
+POST 
+http://localhost:8080/oauth2/token
+
+grant_type:authorization_code
+client_id:public-client
+client_secret:secret
+redirect_uri:http://127.0.0.1:8081/login/oauth2/code/public-client
+code:I6cyWM96WNuWCAfS6vWCgTwi2KsG9SXtdVWifjd73D-X7nEXX88b9IROgSLJO0Kb2iLAgO1TOEmotsaVtQ8UK-R_oGaMTU6IK_BXQVGuNPkwlWmq-xPMkpJo3UQSrmE_
+code_verifier:YxG5Y_vZOKEz_em895bWA0NoGoS2A4TZR87kosRPukMMuAtyeiX_JxgBj-xzJV-7AFxeHtkdn_0U4X90lARFcRuwdZOo4frJcfSjjAW7dLhT21kuDLSiiYbRYR3Uk7rf
+
+
+http://127.0.0.1:8081/login/aouth2/code/public-client?
+code=0ls1ZKW1JNZfcMsfvPP4kDRgdIXlzwlEQdhnqtVF_wjj1xpwWkU-i9oGQq_VJWTx0U7bRWd6I1tLCrJgz9hI85a12hCICf2MHdimGyy8vDJbna4_OPgNIYU4hMDBF_wd
+
+------------------------------------------------------------------------------------------
+
+Other helpful links:
+
+https://www.youtube.com/watch?v=H1SmCoirFCo&ab_channel=Amolkumar
+
+
+https://github.com/Vikas-Kumar56/oauth-demo/tree/oauth-youtube
+
+http://localhost:8080/.well-known/openid-configuration
+
+select * from oauth2_registered_client;
+select * from users;
+
+select * from spring_session;
+select * from spring_session_attributes;
+
+https://developer.pingidentity.com/en/tools/pkce-code-generator.html
+
+https://www.oauth.com/playground/authorization-code.html
+
+ "public-client"
+ "secret"
+ "refresh_token,authorization_code"
+ "http://127.0.0.1:8081/login/oauth2/code/public-client"
+ "openid,profile"
+ "user"
+ "password"
+
+perfect-skunk@example.com
+Modern-Dove-30
+
+
+
+
+
